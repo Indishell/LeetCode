@@ -1,0 +1,39 @@
+class Solution {
+public:
+  
+    char flip(char x)
+    {
+      return (x == '0') ? '1' : '0';
+    }
+  
+  
+    int findComplement(int num)
+    {
+      
+         int binary[32], i = 0;
+          while(num > 0)
+          {
+                        
+            binary[i] = num%2;
+            num = num/2;
+            i++;
+          }
+      
+        for(int j = i - 1; j >= 0; j--)
+        {
+          if(binary[j] == 1)
+              binary[j] = 0;
+          else
+            binary[j] = 1;
+        }
+      
+      
+      int total = 0;
+        for(int j =0; j < i; j++)
+        {
+          total = total + binary[j]*pow(2, j);
+        }
+      return total;
+        
+    }
+};
