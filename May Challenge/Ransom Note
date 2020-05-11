@@ -1,0 +1,52 @@
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+
+      
+//     Insert all characters of magazine into a map;
+    unordered_map<char, int> mp;
+      for(int i=0; i < magazine.size(); i++)
+          mp[magazine[i]]++;
+      
+      
+//       Now what we do is basically iterate over a ransom string, and check if each and every characyer of ransomNote is present in magazine or not
+//       If there are any occurence we basically decrement that occurenece, from our map, so that we can distinguish between them
+    
+/*
+Take ransomString as R, Magazine as M
+
+R - aa
+M - aab (put magazine in a map)
+
+
+Now, Iterate over the loop
+
+
+Check for first character in R,     i = 0     R[i] =  a,   (a is present in map)  and its count is 2 in magazine, we decrease count of a by 1.
+
+Now for i = 1, again R[i] =a, and we again  check if it present in out map or not and we had only one a which we can use, So again decrement count of a.
+
+Now , iteration ends.
+
+We have succesfully used the magazine characters to build a ransom Note, SO the answer is true.
+
+
+*/
+      
+      
+    
+      for(int i= 0 ; i < ransomNote.size(); i++)
+      {
+        
+        if(mp[ransomNote[i]] >= 1)
+            mp[ransomNote[i]] =  mp[ransomNote[i]] - 1;
+          
+        
+        else
+            return false;
+      }
+      
+      return true;
+      
+    }
+};
