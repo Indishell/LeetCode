@@ -1,0 +1,110 @@
+
+/*
+
+Just get the level of the nodes, and check if their level is same
+and also check if their parent pointers are not same and they must also not equal to root;
+
+
+
+In this case I get the level for both the nodes in a function getLevel.
+
+Now I have taken 2 Arbitrary array to store the path from Root to node1 and root to node2 respectively.
+
+Now, I will check the second last element from both the arbitrary arrays and if they are not same and also not equal to root node. They satisfies the condition to be a cousin in a Binary Tree
+*/
+
+
+class Solution {
+public:
+  
+    int bfsGetLevel(TreeNode* root, int node_data)
+    {
+      if(root == NULL)
+          return 0;
+
+      queue<TreeNode*> mq;
+      mq.push(root);
+      int mylevel = 1;
+
+        while(mq.empty() == false)
+        {
+            int size = mq.size();
+            while(size--)
+            {
+                TreeNode* temp = mq.front();
+                mq.pop();
+
+                if(temp->val == node_data)
+                    return mylevel;
+
+                if(temp->left)
+                    mq.push(temp->left);
+
+                if(temp->right)
+                    mq.push(temp->right);
+            }
+            mylevel++;
+        }
+
+
+      return mylevel;
+  }
+  
+  
+    bool getDistance(TreeNode* root, int k, vector<int> &v)
+    {
+      
+      if(root == NULL)
+          return false;
+      
+      v.push_back(root->val);
+      
+      if(root->val == k)
+          return true;
+      
+      if(  (root->left && getDistance(root->left, k, v)) || (root->right && getDistance(root->right, k, v))  )
+          return true;
+      
+      v.pop_back();
+      return false;
+    }
+      
+
+  
+  
+  
+    bool isCousins(TreeNode* root, int x, int y) 
+    {
+      
+      if(root == NULL)
+          return false;
+        
+        
+      int dis1 = bfsGetLevel(root, x);
+      int dis2 = bfsGetLevel(root, y);
+      
+
+      vector<int> v1;
+      vector<int> v2;
+      
+
+      getDistance(root, x, v1);
+      getDistance(root, y, v2);
+        
+      
+      int m = v1.size();
+      int n = v2.size();
+      
+      
+      if(dis1 == dis2)
+      {
+         if(v1[m - 2] == v2[n - 2])
+            return false;
+        
+         else if(v1[m - 2] != v2[n - 2])
+            return true;
+      }
+        
+      return false;
+    }
+};
