@@ -1,0 +1,71 @@
+//Pure BFS/DFS, a variation of rotten oranges.
+
+class Solution {
+  
+public:
+  
+  bool isSafe(vector<vector<int>> &image, int x, int y, int oldColor)
+  {
+    
+    int M = image.size();
+    int N = image[0].size();
+    
+    return (x >= 0  && x < M  && y >= 0 && y < N  && image[x][y] == oldColor);
+  }
+  
+  
+    
+  void bfs(vector<vector<int>> &image, int x, int y, int oldColor, int newColor)
+  {  
+      int xdir[] = {-1, 0, 1, 0};
+      int ydir[] = {0, -1, 0, 1};
+    
+      int M = image.size();
+      int N = image[0].size();
+      
+      bool visited[M][N];
+      memset(visited, false, sizeof(visited));
+      
+      queue<pair<int, int>> mq;
+      mq.push({x, y});
+    
+      image[x][y] = newColor;
+  
+    
+      while(!mq.empty())
+      {
+          int p = mq.front().first;
+          int q = mq.front().second;
+          
+          mq.pop();
+        
+          for(int k = 0; k < 4; k++)
+          {
+              
+            if( isSafe(image, p + xdir[k], q + ydir[k], oldColor) && !visited[p  + xdir[k]][q + ydir[k]] )
+            {
+              visited[p + xdir[k]][q + ydir[k]] = true;
+              image[p + xdir[k]][q + ydir[k]] = newColor;
+              mq.push({p + xdir[k], q + ydir[k]});
+            }
+            
+          }
+      }
+      
+  }
+  
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) 
+    {
+      
+      if(image[sr][sc] == newColor)
+          return image;
+      
+      
+      int oldColor = image[sr][sc];
+      
+      bfs(image, sr, sc, oldColor, newColor);
+      
+      return image;
+    
+    }
+};
